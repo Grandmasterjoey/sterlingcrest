@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light, editorial palette: warm cream + deep navy + gold */
+    --background: 40 33% 95%;
+    --foreground: 212 45% 14%;
+
+    --card: 40 30% 98%;
+    --card-foreground: 212 45% 14%;
+
+    --popover: 40 30% 98%;
+    --popover-foreground: 212 45% 14%;
+
+    --primary: 40 42% 50%;
+    --primary-foreground: 212 50% 12%;
+
+    --secondary: 212 55% 12%;
+    --secondary-foreground: 40 30% 95%;
+
+    --muted: 40 18% 90%;
+    --muted-foreground: 212 14% 42%;
+
+    --accent: 40 42% 50%;
+    --accent-foreground: 212 50% 12%;
+
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 40 30% 96%;
+
+    --border: 40 18% 84%;
+    --input: 40 18% 84%;
+    --ring: 40 42% 50%;
+
+    --radius: 0.25rem;
+
+    --gold: 40 42% 50%;
+    --gold-light: 40 52% 64%;
+    --gold-dark: 40 45% 38%;
+    --navy: 212 55% 12%;
+    --navy-light: 212 48% 17%;
+    --navy-lighter: 212 42% 26%;
+
+    --sidebar-background: 212 55% 12%;
+    --sidebar-foreground: 40 30% 92%;
+    --sidebar-primary: 40 42% 50%;
+    --sidebar-primary-foreground: 212 50% 12%;
+    --sidebar-accent: 212 42% 18%;
+    --sidebar-accent-foreground: 40 30% 92%;
+    --sidebar-border: 212 35% 22%;
+    --sidebar-ring: 40 42% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer utilities {
+  .font-serif-display {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+
+  .text-gold-gradient {
+    background: linear-gradient(135deg, hsl(40 52% 64%), hsl(40 42% 50%), hsl(40 45% 38%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Short solid gold underline accent used under headings */
+  .gold-underline {
+    height: 2px;
+    background: hsl(var(--gold));
+  }
+
+  /* Soft gold gradient divider */
+  .gold-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--gold) / 0.6), transparent);
+  }
+
+  .navy-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--navy) / 0.25), transparent);
+  }
+
+  .gold-border-glow {
+    border: 1px solid hsl(var(--gold) / 0.3);
+    box-shadow: 0 10px 30px -12px hsl(var(--navy) / 0.18);
+  }
+
+  /* Frosted glass panel used over imagery */
+  .glass-panel {
+    background: hsl(212 50% 10% / 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsl(40 42% 60% / 0.18);
+  }
+
+  .letter-spacing-wide {
+    letter-spacing: 0.25em;
+  }
+}

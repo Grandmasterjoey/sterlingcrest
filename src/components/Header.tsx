@@ -1,0 +1,110 @@
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Menu, X } from "lucide-react";
+import logoSc from "@/assets/logo-sc.png";
+
+const navLinks = [
+  { label: "Services", href: "/#services" },
+  { label: "About", href: "/#about" },
+  { label: "Insights", href: "/#insights" },
+  { label: "Contact", href: "/#contact" },
+];
+
+const Header = () => {
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const useLightStyle = scrolled || !isHome;
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        useLightStyle
+          ? "bg-background/90 backdrop-blur-md border-b border-border/60 shadow-sm"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="container max-w-7xl mx-auto pl-6 pr-0">
+        <div className="flex items-center justify-between h-24">
+          {/* Logo + wordmark */}
+          <Link to="/" className="flex items-center gap-3 group shrink-0">
+            <img
+              src={logoSc}
+              alt="Sterling Crest Financial Group"
+              className="h-14 w-14 md:h-16 md:w-16 object-contain"
+            />
+            <span className="flex flex-col leading-none">
+              <span
+                className={`font-serif text-lg md:text-2xl tracking-[0.18em] transition-colors ${
+                  useLightStyle ? "text-foreground" : "text-white"
+                }`}
+              >
+                STERLING CREST
+              </span>
+              <span className="text-[0.6rem] md:text-[0.7rem] tracking-[0.45em] uppercase text-primary mt-1.5">
+                Financial Group
+              </span>
+            </span>
+          </Link>
+
+          {/* Right cluster: desktop nav + menu square */}
+          <div className="flex items-stretch gap-0">
+            <nav className="hidden md:flex items-center gap-10 pr-8">
+              {navLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className={`text-xs tracking-[0.25em] uppercase font-sans hover:text-primary transition-colors duration-200 ${
+                    useLightStyle ? "text-foreground/70" : "text-white/80"
+                  }`}
+                >
+                  {link.label}
+                </a>
+              ))}
+            </nav>
+
+            <button
+              type="button"
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={menuOpen}
+              onClick={() => setMenuOpen((o) => !o)}
+              className="flex items-center justify-center w-16 h-24 bg-secondary text-secondary-foreground hover:bg-navy-light transition-colors"
+            >
+              {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Slide-down panel (all breakpoints) */}
+      <div
+        className={`overflow-hidden transition-[max-height] duration-300 ease-in-out bg-secondary/97 backdrop-blur-md ${
+          menuOpen ? "max-h-96" : "max-h-0"
+        }`}
+      >
+        <nav className="container max-w-7xl mx-auto px-6 py-6 flex flex-col">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={() => setMenuOpen(false)}
+              className="py-3 text-sm tracking-[0.3em] uppercase font-sans text-white/80 hover:text-primary border-b border-white/10 last:border-b-0 transition-colors"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
