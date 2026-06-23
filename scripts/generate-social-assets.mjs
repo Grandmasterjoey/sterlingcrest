@@ -55,6 +55,13 @@ const faviconPng = await sharp(logoSource)
 
 writeFileSync(join(publicDir, "favicon.png"), faviconPng);
 
+const faviconIco = await sharp(logoSource)
+  .resize(48, 48, { fit: "inside", background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  .toFormat("png")
+  .toBuffer();
+
+writeFileSync(join(publicDir, "favicon.ico"), faviconIco);
+
 const appleTouchIcon = await sharp(logoSource)
   .resize(180, 180, { fit: "inside", background: { r: 0, g: 0, b: 0, alpha: 0 } })
   .png()
@@ -63,4 +70,4 @@ const appleTouchIcon = await sharp(logoSource)
 writeFileSync(join(publicDir, "apple-touch-icon.png"), appleTouchIcon);
 
 console.log(`social-card.webp: ${(socialCard.length / 1024).toFixed(1)} KB → ${socialBlob.url}`);
-console.log("Updated public/favicon.png and public/apple-touch-icon.png");
+console.log("Updated public/favicon.ico, public/favicon.png, and public/apple-touch-icon.png");
