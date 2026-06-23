@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
-import { logoImage } from "@/lib/images";
+import { logoImage, logoImageOnDark } from "@/lib/images";
 
 const navLinks = [
   { label: "Services", href: "/#services" },
@@ -36,11 +36,11 @@ const Header = () => {
           {/* Logo + wordmark */}
           <Link to="/" className="flex items-center gap-3 group shrink-0">
             <img
-              src={logoImage}
+              src={useLightStyle ? logoImage : logoImageOnDark}
               width={256}
               height={256}
               alt="Sterling Crest Financial Group"
-              className="h-14 w-14 md:h-16 md:w-16 object-contain"
+              className="h-14 w-14 md:h-16 md:w-16 object-contain transition-opacity duration-300"
             />
             <span className="flex flex-col leading-none">
               <span

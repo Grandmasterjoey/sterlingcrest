@@ -30,6 +30,14 @@ const uploads = [
         .webp({ quality: 90, effort: 6 })
         .toBuffer(),
   },
+  {
+    name: "logo-gold.webp",
+    buffer: () =>
+      sharp(readFileSync(join(assets, "logo-gold.png")))
+        .resize(256, 256, { fit: "inside", withoutEnlargement: true })
+        .webp({ quality: 90, effort: 6 })
+        .toBuffer(),
+  },
 ];
 
 const urls = {};
@@ -40,6 +48,7 @@ for (const item of uploads) {
     access: "public",
     contentType: "image/webp",
     token,
+    allowOverwrite: true,
     addRandomSuffix: false,
   });
   urls[item.name] = blob.url;

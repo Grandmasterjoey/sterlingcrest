@@ -1,4 +1,4 @@
-import { logoImage } from "@/lib/images";
+import { logoImageOnDark } from "@/lib/images";
 
 const Footer = () => {
   return (
@@ -6,7 +6,7 @@ const Footer = () => {
       <div className="container max-w-6xl mx-auto px-6">
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           <a href="#top" className="flex items-center gap-3">
-            <img src={logoImage} alt="Sterling Crest Financial Group" width={256} height={256} className="h-10 w-10 object-contain" />
+            <img src={logoImageOnDark} alt="Sterling Crest Financial Group" width={256} height={256} className="h-10 w-10 object-contain" />
             <span className="flex flex-col leading-none">
               <span className="font-serif text-lg tracking-[0.18em] text-white">STERLING CREST</span>
               <span className="text-[0.6rem] tracking-[0.45em] uppercase text-primary mt-1">Financial Group</span>
