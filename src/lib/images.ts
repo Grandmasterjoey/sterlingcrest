@@ -14,7 +14,7 @@ const unsplash = (id: string, w = 1600) =>
 export const aboutImage = unsplash("1543342384-1f1350e27861", 1100);
 
 // Advisor meeting with a couple for the Independence section.
-export const independenceImage = unsplash("1573497019940-1c28c488b378", 1100);
+export const independenceImage = unsplash("1556761175-b413da4baf72", 1100);
 
 export const serviceImages: Record<string, string> = {
   "final-expense": unsplash("1529156069898-49953e39b3ac", 900),
