@@ -29,6 +29,10 @@ const HeroSection = () => {
       <img
         src={heroImage}
         alt="Modern luxury building entrance at dusk"
+        width={1536}
+        height={1024}
+        fetchPriority="high"
+        decoding="async"
         className="absolute inset-0 w-full h-full object-cover animate-slow-zoom"
       />
 

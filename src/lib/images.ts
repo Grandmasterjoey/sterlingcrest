@@ -1,14 +1,14 @@
 // Centralized image sources for the marketing site.
-// The hero uses an owned/branded asset; stock photography is used elsewhere so
-// the design matches the approved direction. To swap in owned photography,
-// drop files into `src/assets` and replace the URLs below with imports.
+// Owned assets are served from Vercel Blob CDN for faster edge delivery.
+// Stock photography uses Unsplash CDN elsewhere on the site.
 
-import heroDusk from "@/assets/hero-dusk.png";
+const CDN = "https://wkz9g1gwrhohvd99.public.blob.vercel-storage.com/images";
+
+export const heroImage = `${CDN}/hero-dusk.webp`;
+export const logoImage = `${CDN}/logo-sc.webp`;
 
 const unsplash = (id: string, w = 1600) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
-
-export const heroImage = heroDusk;
 
 // Family / "dad with his kid" photo for the Philosophy section.
 export const aboutImage = unsplash("1543342384-1f1350e27861", 1100);

@@ -32,6 +32,8 @@ const ServicesSection = () => {
               src={serviceImages[service.slug]}
               alt=""
               aria-hidden="true"
+              loading="lazy"
+              decoding="async"
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
             />
             {/* Navy overlay */}
