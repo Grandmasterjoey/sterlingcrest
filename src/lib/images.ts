@@ -6,7 +6,6 @@ const CDN = "https://wkz9g1gwrhohvd99.public.blob.vercel-storage.com/images";
 
 export const heroImage = `${CDN}/hero-dusk.webp`;
 export const logoImage = `${CDN}/logo-sc.webp`;
-export const logoImageOnDark = `${CDN}/logo-gold.webp`;
 
 const unsplash = (id: string, w = 1600) =>
   `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
