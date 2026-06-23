@@ -20,7 +20,7 @@ export const serviceImages: Record<string, string> = {
   "final-expense": unsplash("1529156069898-49953e39b3ac", 900),
   "mortgage-protection": unsplash("1600585154340-be6161a56a0c", 900),
   "term-life": unsplash("1511895426328-dc8714191300", 900),
-  "whole-life": unsplash("1609223068552-9f5854a798f0", 900),
-  "retirement-legacy": unsplash("1519046909924-21a693751454", 900),
-  "annuity": unsplash("1522778119026-d78684874777", 900),
+  "whole-life": unsplash("1582750433449-648ed127bb54", 900),
+  "retirement-legacy": unsplash("1507525428034-b723cf961d3e", 900),
+  "annuity": unsplash("1573496359142-b8d87734a5a2", 900),
 };
