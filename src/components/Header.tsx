@@ -85,14 +85,14 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Slide-down panel — frosted glass; adapts to scroll like the header bar */}
+      {/* Slide-down panel (all breakpoints) */}
       <div
-        className={`overflow-hidden transition-[max-height] duration-300 ease-in-out backdrop-blur-xl backdrop-saturate-150 ${
+        className={`overflow-hidden transition-[max-height] duration-300 ease-in-out backdrop-blur-md ${
           menuOpen ? "max-h-96" : "max-h-0"
         } ${
           useLightStyle
-            ? "bg-background/80 border-b border-border/60"
-            : "bg-secondary/75 border-b border-white/10"
+            ? "bg-background/97 border-b border-border/60"
+            : "bg-secondary/97"
         }`}
       >
         <nav className="container max-w-7xl mx-auto px-6 py-6 flex flex-col">
@@ -104,7 +104,7 @@ const Header = () => {
               className={`py-3 text-sm tracking-[0.3em] uppercase font-sans hover:text-primary border-b last:border-b-0 transition-colors ${
                 useLightStyle
                   ? "text-foreground border-border/60"
-                  : "text-white/90 border-white/10"
+                  : "text-white/80 border-white/10"
               }`}
             >
               {link.label}
