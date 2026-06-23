@@ -1,5 +1,10 @@
 import { Mail, Phone, ArrowRight } from "lucide-react";
-import { contactEmail, contactPhone, contactPhoneHref } from "@/lib/contact";
+import {
+  contactEmail,
+  contactPhone,
+  contactPhoneHref,
+  scheduleConsultationHref,
+} from "@/lib/contact";
 
 const ContactCTA = () => {
   return (
@@ -20,7 +25,7 @@ const ContactCTA = () => {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
           <a
-            href={`mailto:${contactEmail}`}
+            href={scheduleConsultationHref}
             className="group inline-flex items-center justify-center gap-2 px-10 py-4 bg-secondary text-secondary-foreground text-xs tracking-[0.25em] uppercase font-sans hover:bg-navy-light transition-all duration-300"
           >
             Schedule a Consultation

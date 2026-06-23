@@ -1,5 +1,6 @@
 import { HeartHandshake, Award, ShieldCheck, ArrowRight } from "lucide-react";
 import { heroImage } from "@/lib/images";
+import { scheduleConsultationHref } from "@/lib/contact";
 
 const highlights = [
   {
@@ -55,14 +56,14 @@ const HeroSection = () => {
             <div className="gold-underline w-16 mt-6 md:mt-8" />
 
             <p className="mt-6 md:mt-8 text-base md:text-lg leading-relaxed text-white/75 font-sans max-w-lg">
-              We help individuals and families secure lasting financial
-              protection through personalized guidance, trusted insurance
-              solutions, and access to top-rated carriers.
+              Thoughtful planning today can create security for generations to
+              come. Whether you're protecting your family, your income, or your
+              legacy, we help you make confident decisions for the future.
             </p>
 
             <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4">
               <a
-                href="#contact"
+                href={scheduleConsultationHref}
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground text-xs tracking-[0.25em] uppercase font-sans hover:bg-gold-light transition-all duration-300"
               >
                 Schedule Consultation

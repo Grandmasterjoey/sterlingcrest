@@ -2,7 +2,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { contactEmail } from "@/lib/contact";
+import { scheduleConsultationHref } from "@/lib/contact";
 import { serviceImages } from "@/lib/images";
 import { getService } from "@/lib/services";
 
@@ -114,7 +114,7 @@ const ServicePage = () => {
             the protection that's right for you and your family.
           </p>
           <a
-            href={`mailto:${contactEmail}`}
+            href={scheduleConsultationHref}
             className="group inline-flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground text-xs tracking-[0.25em] uppercase font-sans hover:opacity-90 transition-all duration-300"
           >
             Schedule a Consultation
