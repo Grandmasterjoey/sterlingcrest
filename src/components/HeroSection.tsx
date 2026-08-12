@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { HeartHandshake, Award, ShieldCheck, ArrowRight } from "lucide-react";
 import { heroImage } from "@/lib/images";
 import { scheduleConsultationHref } from "@/lib/contact";
@@ -62,13 +63,13 @@ const HeroSection = () => {
             </p>
 
             <div className="mt-8 md:mt-10 flex flex-col sm:flex-row gap-4">
-              <a
-                href={scheduleConsultationHref}
+              <Link
+                to={scheduleConsultationHref}
                 className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground text-xs tracking-[0.25em] uppercase font-sans hover:bg-gold-light transition-all duration-300"
               >
                 Schedule Consultation
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </a>
+              </Link>
               <a
                 href="#services"
                 className="inline-flex items-center justify-center px-8 py-4 border border-white/30 text-white text-xs tracking-[0.25em] uppercase font-sans hover:bg-white/10 transition-all duration-300"

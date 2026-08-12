@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { scheduleConsultationHref } from "@/lib/contact";
 
@@ -12,13 +13,13 @@ const CtaBand = () => {
             The right protection starts with the{" "}
             <span className="text-gold-gradient">right conversation.</span>
           </p>
-          <a
-            href={scheduleConsultationHref}
+          <Link
+            to={scheduleConsultationHref}
             className="group inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground text-xs tracking-[0.25em] uppercase font-sans hover:bg-gold-light transition-all duration-300 shrink-0"
           >
             Schedule Consultation
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

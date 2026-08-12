@@ -6,7 +6,7 @@ import { logoImage } from "@/lib/images";
 const navLinks = [
   { label: "Services", href: "/#services" },
   { label: "About", href: "/#about" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Book", href: "/book" },
 ];
 
 const Header = () => {

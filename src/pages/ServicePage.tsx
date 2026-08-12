@@ -113,13 +113,13 @@ const ServicePage = () => {
             Schedule a complimentary consultation to discuss your goals and find
             the protection that's right for you and your family.
           </p>
-          <a
-            href={scheduleConsultationHref}
+          <Link
+            to={scheduleConsultationHref}
             className="group inline-flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground text-xs tracking-[0.25em] uppercase font-sans hover:opacity-90 transition-all duration-300"
           >
             Schedule a Consultation
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </a>
+          </Link>
         </div>
       </section>
 
