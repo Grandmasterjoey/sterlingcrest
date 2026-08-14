@@ -1,7 +1,7 @@
 export const bookingCalendarSrc =
-  "https://api.leadconnectorhq.com/widget/booking/CpLeO5cYBHbGMpsfiYhn";
+  "https://api.leadconnectorhq.com/widget/booking/z5alu4wAOsoaOQwTkvAa";
 
-export const bookingCalendarId = "CpLeO5cYBHbGMpsfiYhn_1786498848239";
+export const bookingCalendarId = "z5alu4wAOsoaOQwTkvAa_1786721034522";
 
 export const bookingFormEmbedScript =
-  "https://link.msgsndr.com/js/form_embed.js";
+  "https://api.leadconnectorhq.com/js/form_embed.js";
