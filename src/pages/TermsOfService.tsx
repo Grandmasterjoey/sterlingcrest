@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { contactEmail, contactPhone } from "@/lib/contact";
 
 const TermsOfService = () => {
   return (
@@ -91,8 +92,8 @@ const TermsOfService = () => {
             <div className="mt-3 p-6 bg-muted rounded-lg border border-border/60">
               <p className="font-serif text-lg text-foreground">O'Neill Capital Inc.</p>
               <p className="text-muted-foreground text-sm mt-1">DBA Sterling Crest Financial</p>
-              <p className="mt-3">Email: support@sterlingcrestfinancial.com</p>
-              <p>Phone: 561-658-4750</p>
+              <p className="mt-3">Email: {contactEmail}</p>
+              <p>Phone: {contactPhone}</p>
             </div>
           </section>
         </div>
