@@ -58,7 +58,7 @@ const AboutSection = () => {
           <div className="relative">
             <img
               src={independenceImage}
-              alt="A professional advisor meeting with a couple at a table"
+              alt="A financial advisor seated across from a couple, reviewing coverage options at a desk in a warm, upscale office"
               className="w-full h-[360px] md:h-[480px] object-cover"
               loading="lazy"
             />

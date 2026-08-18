@@ -13,8 +13,8 @@ const unsplash = (id: string, w = 1600) =>
 // Family photo for the Philosophy section.
 export const aboutImage = unsplash("1543342384-1f1350e27861", 1100);
 
-// Advisor meeting with a couple for the Independence section.
-export const independenceImage = unsplash("1556761175-b413da4baf72", 1100);
+// Advisor guiding a couple through options at a desk in an upscale office.
+export const independenceImage = "/images/independence-consultation.jpg";
 
 export const serviceImages: Record<string, string> = {
   "final-expense": unsplash("1529156069898-49953e39b3ac", 900),
