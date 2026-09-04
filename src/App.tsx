@@ -10,6 +10,10 @@ import TermsOfService from "./pages/TermsOfService.tsx";
 import Compare from "./pages/Compare.tsx";
 import Book from "./pages/Book.tsx";
 import ServicePage from "./pages/ServicePage.tsx";
+import SeoMdxPage from "./pages/SeoMdxPage.tsx";
+import ResourcesIndex from "./pages/ResourcesIndex.tsx";
+import InsuranceIndex from "./pages/InsuranceIndex.tsx";
+import LocationsIndex from "./pages/LocationsIndex.tsx";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 
 const queryClient = new QueryClient();
@@ -26,6 +30,12 @@ const App = () => (
           <Route path="/compare" element={<Compare />} />
           <Route path="/book" element={<Book />} />
           <Route path="/services/:slug" element={<ServicePage />} />
+          <Route path="/resources" element={<ResourcesIndex />} />
+          <Route path="/resources/:slug" element={<SeoMdxPage />} />
+          <Route path="/insurance" element={<InsuranceIndex />} />
+          <Route path="/insurance/:slug" element={<SeoMdxPage />} />
+          <Route path="/locations" element={<LocationsIndex />} />
+          <Route path="/locations/:slug" element={<SeoMdxPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

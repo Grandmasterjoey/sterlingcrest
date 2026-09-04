@@ -5,6 +5,7 @@ import { logoImage } from "@/lib/images";
 
 const navLinks = [
   { label: "Services", href: "/#services" },
+  { label: "Guides", href: "/resources" },
   { label: "About", href: "/#about" },
   { label: "Book", href: "/book" },
 ];
@@ -88,7 +89,7 @@ const Header = () => {
       {/* Slide-down panel (all breakpoints) */}
       <div
         className={`overflow-hidden transition-[max-height] duration-300 ease-in-out backdrop-blur-md ${
-          menuOpen ? "max-h-96" : "max-h-0"
+          menuOpen ? "max-h-[32rem]" : "max-h-0"
         } ${
           useLightStyle
             ? "bg-background/97 border-b border-border/60"
