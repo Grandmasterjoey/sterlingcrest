@@ -13,6 +13,9 @@ const unsplash = (id: string, w = 1600) =>
 // Family photo for the Philosophy section.
 export const aboutImage = unsplash("1543342384-1f1350e27861", 1100);
 
+// Custom wide hero for the Guides index — family overlooking landscape at golden hour.
+export const guidesIndexHeroImage = "/images/guides-hero-family-landscape.jpg";
+
 // Advisor guiding a couple through options at a desk in an upscale office.
 export const independenceImage = "/images/independence-consultation.jpg";
 

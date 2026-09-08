@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { aboutImage } from "@/lib/images";
+import { guidesIndexHeroImage } from "@/lib/images";
 import { usePageMeta } from "@/lib/page-meta";
 import { guideHeroImage, listSeoPagesByPrefix } from "@/lib/seo-content";
 
@@ -21,12 +21,12 @@ const ResourcesIndex = () => {
       <section className="relative pt-24 md:pt-28">
         <div className="relative min-h-[360px] md:min-h-[440px] flex items-end overflow-hidden">
           <img
-            src={aboutImage}
+            src={guidesIndexHeroImage}
             alt=""
             aria-hidden="true"
             fetchPriority="high"
             decoding="async"
-            className="absolute inset-0 w-full h-full object-cover object-center"
+            className="absolute inset-0 w-full h-full object-cover object-[70%_center]"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-secondary/95 via-secondary/80 to-secondary/35" />
           <div className="container max-w-4xl mx-auto px-6 pb-12 md:pb-16 relative z-10">
