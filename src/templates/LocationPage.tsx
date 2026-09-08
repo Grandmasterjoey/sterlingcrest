@@ -24,7 +24,7 @@ function locationLabel(page: SeoPage): string {
 const LocationPage = ({ page }: { page: SeoPage }) => {
   const { frontmatter, body, aeoAnswer, faq } = page;
   const place = locationLabel(page);
-  const hero = guideHeroImage(frontmatter.slug);
+  const hero = guideHeroImage(page);
 
   return (
     <SeoChrome page={page}>

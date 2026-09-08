@@ -3,7 +3,8 @@ import {
   publicPathForTemplate,
   type ParsedSeoMdx,
 } from "./parse-seo-mdx";
-import { serviceImages } from "@/lib/images";
+
+export { guideHeroImage } from "./guide-images";
 
 const rawPages = import.meta.glob("../../content/seo/*.mdx", {
   query: "?raw",
@@ -54,11 +55,4 @@ export function relatedServiceSlug(pageSlug: string): string | undefined {
   if (s.includes("annuit")) return "annuity";
   if (s.includes("retirement") || s.includes("legacy")) return "retirement-legacy";
   return undefined;
-}
-
-export function guideHeroImage(pageSlug: string): string {
-  const serviceSlug = relatedServiceSlug(pageSlug);
-  return serviceSlug
-    ? serviceImages[serviceSlug]
-    : serviceImages["final-expense"];
 }

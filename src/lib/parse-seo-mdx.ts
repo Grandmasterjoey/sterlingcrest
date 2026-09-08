@@ -17,6 +17,8 @@ export type SeoFrontmatter = {
   internalLinks?: string[];
   sources?: SeoSource[];
   generatedAt?: string;
+  /** Optional hero/thumbnail image URL or Unsplash photo id from SEO Factory. */
+  heroImage?: string;
 };
 
 export type ParsedSeoMdx = {
@@ -84,6 +86,7 @@ function parseFrontmatter(block: string): SeoFrontmatter {
       ? (data.sources as SeoSource[])
       : undefined,
     generatedAt: data.generatedAt ? String(data.generatedAt) : undefined,
+    heroImage: data.heroImage ? String(data.heroImage) : undefined,
   };
 }
 

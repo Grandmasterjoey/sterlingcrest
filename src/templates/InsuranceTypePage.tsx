@@ -16,7 +16,7 @@ const InsuranceTypePage = ({ page }: { page: SeoPage }) => {
   const { frontmatter, body, aeoAnswer, faq } = page;
   const serviceSlug = relatedServiceSlug(frontmatter.slug);
   const service = serviceSlug ? getService(serviceSlug) : undefined;
-  const hero = guideHeroImage(frontmatter.slug);
+  const hero = guideHeroImage(page);
   const isFinalExpense = serviceSlug === "final-expense";
 
   return (
