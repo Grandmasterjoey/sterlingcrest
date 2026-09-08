@@ -2,13 +2,13 @@ import { Link } from "react-router-dom";
 import { MapPin } from "lucide-react";
 import TrustBar from "@/components/TrustBar";
 import { MarkdownBody } from "@/lib/markdown";
-import { serviceImages } from "@/lib/images";
-import type { SeoPage } from "@/lib/seo-content";
+import { guideHeroImage, type SeoPage } from "@/lib/seo-content";
 import {
-  AeoAnswer,
   ConsultCta,
   Disclosures,
   FaqSection,
+  GuideHero,
+  GuideIntro,
   RelatedLinks,
   SeoChrome,
 } from "./seo-shared";
@@ -24,48 +24,27 @@ function locationLabel(page: SeoPage): string {
 const LocationPage = ({ page }: { page: SeoPage }) => {
   const { frontmatter, body, aeoAnswer, faq } = page;
   const place = locationLabel(page);
-  const hero = serviceImages["final-expense"];
+  const hero = guideHeroImage(frontmatter.slug);
 
   return (
     <SeoChrome page={page}>
-      <section className="relative pt-24 md:pt-28">
-        <div className="relative min-h-[320px] md:min-h-[400px] flex items-end overflow-hidden">
-          <img
-            src={hero}
-            alt=""
-            aria-hidden="true"
-            fetchPriority="high"
-            decoding="async"
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-secondary/95 via-secondary/80 to-secondary/50" />
-          <div className="container max-w-4xl mx-auto px-6 pb-12 md:pb-16 relative z-10">
-            <Link
-              to="/locations"
-              className="inline-block text-primary text-xs tracking-[0.3em] uppercase font-sans mb-6 hover:text-primary/80 transition-colors"
-            >
-              ← Locations
-            </Link>
-            <p className="inline-flex items-center gap-2 text-primary text-[0.7rem] tracking-[0.45em] uppercase font-sans mb-3">
-              <MapPin className="w-3.5 h-3.5" strokeWidth={1.6} />
-              {place} · Final Expense
-            </p>
-            <h1 className="font-serif text-3xl md:text-5xl text-white leading-tight">
-              {frontmatter.title}
-            </h1>
-          </div>
-        </div>
-      </section>
+      <GuideHero
+        image={hero}
+        backTo="/locations"
+        backLabel="← Locations"
+        tall
+        eyebrow={
+          <p className="inline-flex items-center gap-2 text-primary text-[0.7rem] tracking-[0.45em] uppercase font-sans mb-3">
+            <MapPin className="w-3.5 h-3.5" strokeWidth={1.6} />
+            {place} · Final Expense
+          </p>
+        }
+        title={frontmatter.title}
+      />
 
       <TrustBar />
 
-      {aeoAnswer && (
-        <section className="py-12 md:py-16">
-          <div className="container max-w-3xl mx-auto px-6">
-            <AeoAnswer answer={aeoAnswer} />
-          </div>
-        </section>
-      )}
+      <GuideIntro aeoAnswer={aeoAnswer} className="pt-12 md:pt-16" />
 
       <section className="pb-16 md:pb-20">
         <div className="container max-w-3xl mx-auto px-6">

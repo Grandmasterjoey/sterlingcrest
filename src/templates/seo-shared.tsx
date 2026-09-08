@@ -38,6 +38,60 @@ export function SeoChrome({
   );
 }
 
+export function GuideHero({
+  image,
+  backTo,
+  backLabel,
+  eyebrow,
+  title,
+  tall = false,
+}: {
+  image: string;
+  backTo: string;
+  backLabel: string;
+  eyebrow: ReactNode;
+  title: string;
+  tall?: boolean;
+}) {
+  return (
+    <section className="relative pt-24 md:pt-28">
+      <div
+        className={`relative flex items-end overflow-hidden ${
+          tall ? "min-h-[320px] md:min-h-[400px]" : "min-h-[320px] md:min-h-[380px]"
+        }`}
+      >
+        <img
+          src={image}
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-secondary/95 via-secondary/80 to-secondary/55" />
+        <div className="container max-w-4xl mx-auto px-6 pb-12 md:pb-16 relative z-10">
+          <Link
+            to={backTo}
+            className="inline-block text-primary text-xs tracking-[0.3em] uppercase font-sans mb-6 hover:text-primary/80 transition-colors"
+          >
+            {backLabel}
+          </Link>
+          {typeof eyebrow === "string" ? (
+            <p className="text-primary text-[0.7rem] tracking-[0.45em] uppercase font-sans mb-3">
+              {eyebrow}
+            </p>
+          ) : (
+            eyebrow
+          )}
+          <h1 className="font-serif text-3xl md:text-5xl text-white leading-tight">
+            {title}
+          </h1>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function AeoAnswer({
   answer,
   eyebrow = "Quick answer",
@@ -56,6 +110,47 @@ export function AeoAnswer({
       <p className="text-base md:text-lg leading-relaxed text-foreground/85 font-sans">
         {answer}
       </p>
+    </div>
+  );
+}
+
+export function InlineConsultCta() {
+  return (
+    <div className="bg-secondary text-secondary-foreground px-6 py-8 md:py-10 text-center">
+      <h2 className="font-serif text-xl md:text-2xl text-white mb-3">
+        Want to see what coverage could look like for you?
+      </h2>
+      <p className="text-white/70 font-sans text-sm md:text-base mb-6 max-w-lg mx-auto">
+        Speak with a licensed specialist for a complimentary, no-obligation
+        consultation.
+      </p>
+      <Link
+        to={scheduleConsultationHref}
+        className="group inline-flex items-center justify-center gap-2 px-10 py-4 bg-primary text-primary-foreground text-xs tracking-[0.25em] uppercase font-sans hover:opacity-90 transition-all duration-300"
+      >
+        Schedule a Consultation
+        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+      </Link>
+    </div>
+  );
+}
+
+/** Quick answer (when present) plus top-of-guide consultation CTA for all SEO guides. */
+export function GuideIntro({
+  aeoAnswer,
+  className,
+}: {
+  aeoAnswer: string | null;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`container max-w-3xl mx-auto px-6 mb-12${className ? ` ${className}` : ""}`}
+    >
+      {aeoAnswer && <AeoAnswer answer={aeoAnswer} />}
+      <div className={aeoAnswer ? "mt-6" : undefined}>
+        <InlineConsultCta />
+      </div>
     </div>
   );
 }
