@@ -30,8 +30,8 @@ const LocationPage = ({ page }: { page: SeoPage }) => {
     <SeoChrome page={page}>
       <GuideHero
         image={hero}
-        backTo="/locations"
-        backLabel="← Locations"
+        backTo="/resources"
+        backLabel="← Guides"
         tall
         eyebrow={
           <p className="inline-flex items-center gap-2 text-primary text-[0.7rem] tracking-[0.45em] uppercase font-sans mb-3">

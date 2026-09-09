@@ -39,6 +39,15 @@ export function listSeoPagesByPrefix(prefix: string): SeoPage[] {
   return pages.filter((p) => p.path.startsWith(prefix));
 }
 
+/** Guides index — resource guides and location pages share one card layout. */
+export function listGuideIndexPages(): SeoPage[] {
+  return pages
+    .filter(
+      (p) => p.path.startsWith("/resources/") || p.path.startsWith("/locations/")
+    )
+    .sort((a, b) => a.frontmatter.title.localeCompare(b.frontmatter.title));
+}
+
 export function getSeoPageByPath(pathname: string): SeoPage | undefined {
   const clean = pathname.replace(/\/$/, "") || "/";
   return byPath.get(clean);

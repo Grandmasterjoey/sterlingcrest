@@ -4,10 +4,10 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { guidesIndexHeroImage } from "@/lib/images";
 import { usePageMeta } from "@/lib/page-meta";
-import { guideHeroImage, listSeoPagesByPrefix } from "@/lib/seo-content";
+import { guideHeroImage, listGuideIndexPages } from "@/lib/seo-content";
 
 const ResourcesIndex = () => {
-  const pages = listSeoPagesByPrefix("/resources");
+  const pages = listGuideIndexPages();
   usePageMeta({
     title: "Guides",
     description:
@@ -39,8 +39,9 @@ const ResourcesIndex = () => {
             <div className="gold-underline w-16 mt-6 mb-6" />
             <p className="text-base md:text-lg text-white/75 font-sans leading-relaxed max-w-2xl">
               Educational articles on life insurance, financial protection, and
-              the decisions that help families plan with confidence. When
-              you&apos;re ready, a complimentary consultation is the next step.
+              the decisions that help families plan with confidence — including
+              state-specific location guides. When you&apos;re ready, a
+              complimentary consultation is the next step.
             </p>
           </div>
         </div>

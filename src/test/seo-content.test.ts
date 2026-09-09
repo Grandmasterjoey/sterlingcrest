@@ -5,8 +5,8 @@ import {
   publicPathForTemplate,
   splitBodyAndFaq,
 } from "@/lib/parse-seo-mdx";
-import { relatedServiceSlug, listSeoPages } from "@/lib/seo-content";
-import { resolveGuideImage } from "@/lib/guide-images";
+import { relatedServiceSlug, listGuideIndexPages, listSeoPages } from "@/lib/seo-content";
+import { guideHeroImage, resolveGuideImage } from "@/lib/guide-images";
 
 const sample = `---
 {
@@ -129,12 +129,25 @@ describe("listSeoPages", () => {
   });
 });
 
+describe("listGuideIndexPages", () => {
+  it("merges resource guides and location pages for the Guides index", () => {
+    const pages = listGuideIndexPages();
+    expect(pages.some((p) => p.path.startsWith("/resources/"))).toBe(true);
+    expect(pages.some((p) => p.path.startsWith("/locations/"))).toBe(true);
+    expect(pages.some((p) => p.path.startsWith("/insurance/"))).toBe(false);
+    for (const page of pages) {
+      expect(page.path).toMatch(/^\/(resources|locations)\//);
+    }
+  });
+});
+
 describe("resolveGuideImage", () => {
-  it("assigns unique images to resource guides", () => {
-    const pages = listSeoPages().filter((p) => p.path.startsWith("/resources/"));
-    const images = new Set(pages.map((p) => resolveGuideImage(p.frontmatter)));
+  it("resolves a hero/thumbnail image for every Guides index page", () => {
+    const pages = listGuideIndexPages();
     expect(pages.length).toBeGreaterThan(1);
-    expect(images.size).toBe(pages.length);
+    for (const page of pages) {
+      expect(guideHeroImage(page)).toMatch(/^https:\/\/images\.unsplash\.com\//);
+    }
   });
 
   it("uses frontmatter heroImage when provided", () => {
@@ -153,8 +166,20 @@ describe("resolveGuideImage", () => {
       template: "blog-page",
       targetKeyword: "burial insurance cost",
     });
-    expect(image).toMatch(
-      /1454165804606-c3d57bc86b40|1551836022-d5d88e9218df|1560518883-ce09059eeffa/
-    );
+    expect(image).toMatch(/^https:\/\/images\.unsplash\.com\//);
+  });
+
+  it("assigns distinct images to new condition guides", () => {
+    const copd = resolveGuideImage({
+      slug: "final-expense-insurance-with-emphysema",
+      template: "condition-page",
+      targetKeyword: "final expense insurance with emphysema",
+    });
+    const diabetes = resolveGuideImage({
+      slug: "final-expense-insurance-with-type-2-diabetes",
+      template: "blog-page",
+      targetKeyword: "final expense insurance with type 2 diabetes",
+    });
+    expect(copd).not.toBe(diabetes);
   });
 });
