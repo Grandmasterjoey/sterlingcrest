@@ -153,6 +153,8 @@ describe("resolveGuideImage", () => {
       template: "blog-page",
       targetKeyword: "burial insurance cost",
     });
-    expect(image).toContain("1454165804606-c3d57bc86b40");
+    expect(image).toMatch(
+      /1454165804606-c3d57bc86b40|1551836022-d5d88e9218df|1560518883-ce09059eeffa/
+    );
   });
 });

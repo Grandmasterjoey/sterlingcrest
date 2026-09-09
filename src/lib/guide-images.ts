@@ -56,27 +56,38 @@ function matchesAny(haystack: string, needles: string[]): boolean {
   return needles.some((needle) => haystack.includes(needle));
 }
 
-function resolveByTopic(input: GuideImageInput): string | undefined {
+function pickFromPool(slugKey: string, pool: readonly string[]): string {
+  return pool[hashSlug(slugKey) % pool.length];
+}
+
+function resolveTopicPool(input: GuideImageInput): readonly string[] | undefined {
   const slug = input.slug.toLowerCase();
   const keyword = (input.targetKeyword ?? "").toLowerCase();
   const combined = `${slug} ${keyword}`;
 
-  if (input.template === "location-page" || matchesAny(combined, ["-in-", " florida", " texas", " georgia", " michigan", " north-carolina", "location"])) {
-    if (matchesAny(combined, ["florida", "-fl"])) return guideImageLibrary.coastalWarm;
-    if (matchesAny(combined, ["texas", "-tx"])) return guideImageLibrary.generationalWalk;
-    return guideImageLibrary.coastalWarm;
+  if (
+    input.template === "location-page" ||
+    matchesAny(combined, ["-in-", " florida", " texas", " georgia", " michigan", " north-carolina", "location"])
+  ) {
+    if (matchesAny(combined, ["florida", "-fl"])) {
+      return [guideImageLibrary.coastalWarm, guideImageLibrary.familiesOutdoors, guideImageLibrary.generationalWalk];
+    }
+    if (matchesAny(combined, ["texas", "-tx"])) {
+      return [guideImageLibrary.generationalWalk, guideImageLibrary.coastalWarm, guideImageLibrary.familiesOutdoors];
+    }
+    return [guideImageLibrary.coastalWarm, guideImageLibrary.generationalWalk, guideImageLibrary.familiesOutdoors];
   }
 
   if (matchesAny(combined, ["rates-by-age", "by-age", "at-50", "at-60", "at-70", "at-80", "50-80"])) {
-    return guideImageLibrary.generationalWalk;
+    return [guideImageLibrary.generationalWalk, guideImageLibrary.familyPlanning, guideImageLibrary.advisorConsultation];
   }
 
   if (matchesAny(combined, ["how-much", "cost", "rate", "premium", "price", "afford"])) {
-    return guideImageLibrary.financialPlanning;
+    return [guideImageLibrary.financialPlanning, guideImageLibrary.advisorConsultation, guideImageLibrary.homeLegacy];
   }
 
   if (matchesAny(combined, ["simplified", "guaranteed", "-vs-", "comparison", "compare"])) {
-    return guideImageLibrary.advisorConsultation;
+    return [guideImageLibrary.advisorConsultation, guideImageLibrary.financialPlanning, guideImageLibrary.familyPlanning];
   }
 
   if (
@@ -92,22 +103,30 @@ function resolveByTopic(input: GuideImageInput): string | undefined {
       "medication",
     ])
   ) {
-    return guideImageLibrary.advisorConsultation;
+    return [guideImageLibrary.advisorConsultation, guideImageLibrary.familyPlanning, guideImageLibrary.homeLegacy];
   }
 
   if (matchesAny(combined, ["what-is", "how-does", "how-do", "work", "cover", "need"])) {
-    return guideImageLibrary.familyPlanning;
+    return [guideImageLibrary.familyPlanning, guideImageLibrary.familiesOutdoors, guideImageLibrary.homeLegacy];
   }
 
   if (matchesAny(combined, ["burial", "funeral"])) {
-    return guideImageLibrary.homeLegacy;
+    return [guideImageLibrary.homeLegacy, guideImageLibrary.familyPlanning, guideImageLibrary.coastalWarm];
   }
 
-  if (matchesAny(combined, ["mortgage"])) return serviceImages["mortgage-protection"];
-  if (matchesAny(combined, ["term-life", "term life"])) return serviceImages["term-life"];
-  if (matchesAny(combined, ["whole-life", "whole life"])) return serviceImages["whole-life"];
-  if (matchesAny(combined, ["annuit"])) return serviceImages["annuity"];
-  if (matchesAny(combined, ["retirement", "legacy"])) return serviceImages["retirement-legacy"];
+  if (matchesAny(combined, ["mortgage"])) return [serviceImages["mortgage-protection"], guideImageLibrary.homeLegacy, guideImageLibrary.financialPlanning];
+  if (matchesAny(combined, ["term-life", "term life"])) {
+    return [serviceImages["term-life"], guideImageLibrary.familyPlanning, guideImageLibrary.familiesOutdoors];
+  }
+  if (matchesAny(combined, ["whole-life", "whole life"])) {
+    return [serviceImages["whole-life"], guideImageLibrary.homeLegacy, guideImageLibrary.familyPlanning];
+  }
+  if (matchesAny(combined, ["annuit"])) {
+    return [serviceImages["annuity"], guideImageLibrary.financialPlanning, guideImageLibrary.coastalWarm];
+  }
+  if (matchesAny(combined, ["retirement", "legacy"])) {
+    return [serviceImages["retirement-legacy"], guideImageLibrary.homeLegacy, guideImageLibrary.financialPlanning];
+  }
 
   return undefined;
 }
@@ -122,11 +141,10 @@ export function resolveGuideImage(input: GuideImageInput): string {
   const explicit = GUIDE_IMAGE_BY_SLUG[slugKey];
   if (explicit) return explicit;
 
-  const topical = resolveByTopic(input);
-  if (topical) return topical;
+  const topicPool = resolveTopicPool(input);
+  if (topicPool?.length) return pickFromPool(slugKey, topicPool);
 
-  const poolIndex = hashSlug(slugKey) % GUIDE_IMAGE_POOL.length;
-  return GUIDE_IMAGE_POOL[poolIndex];
+  return pickFromPool(slugKey, GUIDE_IMAGE_POOL);
 }
 
 export function guideHeroImage(page: { frontmatter: SeoFrontmatter }): string {
