@@ -23,6 +23,7 @@ const GUIDE_IMAGE_BY_SLUG: Record<string, string> = {
   "final-expense-insurance-with-copd": unsplash("1551836022-d5d88e9218df"),
   "final-expense-insurance-for-seniors-georgia": unsplash("1511895426328-dc8714191300"),
   "final-expense-insurance-with-diabetes": unsplash("1543342384-1f1350e27861"),
+  "final-expense-insurance-with-heart-disease": unsplash("1559757148-5c350d0d3c56"),
 };
 
 type GuideImageInput = Pick<
@@ -163,8 +164,22 @@ function assignFromCatalog(input: GuideImageInput, usedImages?: ReadonlySet<stri
 }
 
 /** Resolve a unique, topic-relevant hero/thumbnail image for an SEO guide page. */
+/** Unsplash ids removed from CDN — ignore bad frontmatter and re-assign. */
+const REMOVED_UNSPLASH_PHOTO_IDS = new Set([
+  "1631217868264-e3b3675f68d8",
+]);
+
+function heroImageFromFrontmatter(value: string | undefined): string | undefined {
+  if (!value) return undefined;
+  const normalized = normalizeHeroImage(value);
+  const match = normalized.match(/photo-(\d+-[a-f0-9]+)/i);
+  if (match?.[1] && REMOVED_UNSPLASH_PHOTO_IDS.has(match[1])) return undefined;
+  return normalized;
+}
+
 export function resolveGuideImage(input: GuideImageInput): string {
-  if (input.heroImage) return normalizeHeroImage(input.heroImage);
+  const fromFrontmatter = heroImageFromFrontmatter(input.heroImage);
+  if (fromFrontmatter) return fromFrontmatter;
 
   const slugKey = input.slug.replace(/^\/+/, "").replace(/\.(mdx|md)$/i, "");
   const explicit = GUIDE_IMAGE_BY_SLUG[slugKey];

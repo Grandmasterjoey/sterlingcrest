@@ -35,7 +35,6 @@ export const BASE_GUIDE_IMAGE_CATALOG: CatalogPhoto[] = [
   { id: "1601044882-417d290a1cba", tags: ["road", "travel", "open", "state:tx", "texas"] },
   { id: "1540206351-d6465b3ac927", tags: ["friends", "outdoors", "community", "seniors"] },
   { id: "1516156008612-3bf200acb115", tags: ["doctor", "elderly", "condition:copd", "copd", "lung"] },
-  { id: "1631217868264-e3b3675f68d8", tags: ["heart", "condition:heart", "cardiac", "health"] },
   { id: "1579684278116-caaa3a0d9851", tags: ["hospital", "care", "condition:stroke", "stroke"] },
   { id: "1517248130642-b93d0c6dfec0", tags: ["porch", "southern", "state:ga", "georgia", "home"] },
   { id: "1583422403896-9f6583c69e41", tags: ["skyline", "city", "state:tx", "texas", "urban"] },

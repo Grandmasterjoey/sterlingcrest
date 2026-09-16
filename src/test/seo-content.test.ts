@@ -169,6 +169,25 @@ describe("resolveGuideImage", () => {
     expect(image).toMatch(/^https:\/\/images\.unsplash\.com\//);
   });
 
+  it("resolves heart disease guide to a working Unsplash hero", () => {
+    const image = resolveGuideImage({
+      slug: "final-expense-insurance-with-heart-disease",
+      template: "condition-page",
+      targetKeyword: "final expense insurance with heart disease",
+    });
+    expect(image).toContain("photo-1559757148-5c350d0d3c56");
+  });
+
+  it("ignores removed Unsplash ids in frontmatter", () => {
+    const image = resolveGuideImage({
+      slug: "final-expense-insurance-with-heart-disease",
+      template: "condition-page",
+      heroImage:
+        "https://images.unsplash.com/photo-1631217868264-e3b3675f68d8?auto=format&fit=crop&w=900&q=80",
+    });
+    expect(image).toContain("photo-1559757148-5c350d0d3c56");
+  });
+
   it("assigns distinct images to new condition guides", () => {
     const copd = resolveGuideImage({
       slug: "final-expense-insurance-with-emphysema",
