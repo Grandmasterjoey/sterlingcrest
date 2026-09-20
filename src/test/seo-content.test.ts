@@ -169,6 +169,22 @@ describe("resolveGuideImage", () => {
     expect(image).toMatch(/^https:\/\/images\.unsplash\.com\//);
   });
 
+  it("assigns distinct images to heart disease and stroke guides", () => {
+    const heart = resolveGuideImage({
+      slug: "final-expense-insurance-with-heart-disease",
+      template: "condition-page",
+      targetKeyword: "final expense insurance with heart disease",
+    });
+    const stroke = resolveGuideImage({
+      slug: "final-expense-insurance-with-stroke",
+      template: "condition-page",
+      targetKeyword: "final expense insurance with stroke",
+    });
+    expect(heart).toContain("photo-1559757148-5c350d0d3c56");
+    expect(stroke).toContain("photo-1612349317150-e413f6a5b16d");
+    expect(heart).not.toBe(stroke);
+  });
+
   it("resolves heart disease guide to a working Unsplash hero", () => {
     const image = resolveGuideImage({
       slug: "final-expense-insurance-with-heart-disease",

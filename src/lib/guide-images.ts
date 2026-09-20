@@ -24,12 +24,34 @@ const GUIDE_IMAGE_BY_SLUG: Record<string, string> = {
   "final-expense-insurance-for-seniors-georgia": unsplash("1511895426328-dc8714191300"),
   "final-expense-insurance-with-diabetes": unsplash("1543342384-1f1350e27861"),
   "final-expense-insurance-with-heart-disease": unsplash("1559757148-5c350d0d3c56"),
+  "final-expense-insurance-with-stroke": unsplash("1612349317150-e413f6a5b16d"),
 };
+
+const HERO_IMAGE_RE = /"heroImage"\s*:\s*"([^"]+)"/;
+
+const rawMdxFiles = import.meta.glob("../../content/seo/*.mdx", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+}) as Record<string, string>;
+
+/** Unsplash ids removed from CDN — ignore bad frontmatter and re-assign. */
+const REMOVED_UNSPLASH_PHOTO_IDS = new Set([
+  "1631217868264-e3b3675f68d8",
+  "1579684278116-caaa3a0d9851",
+  "1516577786095-04062c077e68",
+]);
 
 type GuideImageInput = Pick<
   SeoFrontmatter,
   "slug" | "heroImage" | "targetKeyword" | "template" | "lane" | "targetState"
 >;
+
+type GuideImageOptions = {
+  usedImages?: ReadonlySet<string>;
+  /** When set, skip reusing this slug's existing frontmatter (force fresh assignment). */
+  slug?: string;
+};
 
 function hashSlug(slug: string): number {
   let hash = 0;
@@ -50,12 +72,23 @@ function normalizeHeroImage(value: string): string {
   return trimmed;
 }
 
+function unsplashPhotoId(url: string): string | undefined {
+  return url.match(/photo-(\d+-[a-f0-9]+)/i)?.[1];
+}
+
 function photoKey(photo: CatalogPhoto): string {
   return photo.url ?? photo.id;
 }
 
 function basePhotoUrl(photo: CatalogPhoto): string {
   return photo.url ?? unsplash(photo.id);
+}
+
+function isRemovedPhoto(photo: CatalogPhoto): boolean {
+  const id = photo.id;
+  if (REMOVED_UNSPLASH_PHOTO_IDS.has(id)) return true;
+  const fromUrl = photo.url ? unsplashPhotoId(photo.url) : undefined;
+  return fromUrl != null && REMOVED_UNSPLASH_PHOTO_IDS.has(fromUrl);
 }
 
 function variantImageUrl(baseUrl: string, slug: string, variant: number): string {
@@ -123,22 +156,42 @@ function dedupeCatalog(photos: CatalogPhoto[]): CatalogPhoto[] {
 }
 
 function sortedCatalog(input: GuideImageInput): CatalogPhoto[] {
-  return dedupeCatalog(BASE_GUIDE_IMAGE_CATALOG).map((photo) => ({
-    photo,
-    score: scorePhoto(photo, input),
-  }))
+  return dedupeCatalog(BASE_GUIDE_IMAGE_CATALOG)
+    .filter((photo) => !isRemovedPhoto(photo))
+    .map((photo) => ({
+      photo,
+      score: scorePhoto(photo, input),
+    }))
     .sort((a, b) => b.score - a.score || photoKey(a.photo).localeCompare(photoKey(b.photo)))
     .map((entry) => entry.photo);
 }
 
-function assignFromCatalog(input: GuideImageInput, usedImages?: ReadonlySet<string>): string {
+function collectUsedPhotoKeys(usedImages?: ReadonlySet<string>): Set<string> {
+  const keys = new Set<string>();
+  if (!usedImages) return keys;
+  for (const url of usedImages) {
+    const id = unsplashPhotoId(url);
+    if (id) keys.add(id);
+    else keys.add(url);
+  }
+  return keys;
+}
+
+function assignFromCatalog(
+  input: GuideImageInput,
+  opts: GuideImageOptions = {}
+): string {
   const slugKey = input.slug.replace(/^\/+/, "").replace(/\.(mdx|md)$/i, "");
-  const usedUrls = usedImages ?? new Set<string>();
+  const usedUrls = opts.usedImages ?? collectUsedHeroImages();
+  const usedKeys = collectUsedPhotoKeys(usedUrls);
   const catalog = sortedCatalog(input);
 
   for (const photo of catalog) {
+    const key = photoKey(photo);
+    if (usedKeys.has(key)) continue;
     const url = basePhotoUrl(photo);
-    if (!usedUrls.has(url)) return url;
+    if (usedUrls.has(url)) continue;
+    return url;
   }
 
   for (const photo of catalog) {
@@ -163,29 +216,54 @@ function assignFromCatalog(input: GuideImageInput, usedImages?: ReadonlySet<stri
   return unsplash("1543342384-1f1350e27861");
 }
 
-/** Resolve a unique, topic-relevant hero/thumbnail image for an SEO guide page. */
-/** Unsplash ids removed from CDN — ignore bad frontmatter and re-assign. */
-const REMOVED_UNSPLASH_PHOTO_IDS = new Set([
-  "1631217868264-e3b3675f68d8",
-]);
+/** Hero URLs already assigned on published MDX or slug locks. */
+export function collectUsedHeroImages(excludeSlug?: string): Set<string> {
+  const used = new Set<string>(Object.values(GUIDE_IMAGE_BY_SLUG));
+  const excludeKey = excludeSlug?.replace(/^\/+/, "").replace(/\.(mdx|md)$/i, "");
 
-function heroImageFromFrontmatter(value: string | undefined): string | undefined {
+  for (const raw of Object.values(rawMdxFiles)) {
+    const match = raw.match(HERO_IMAGE_RE);
+    if (!match?.[1]) continue;
+    const normalized = normalizeHeroImage(match[1]);
+    const slugMatch = raw.match(/"slug"\s*:\s*"([^"]+)"/);
+    const slug = slugMatch?.[1]?.replace(/^\/+/, "");
+    if (excludeKey && slug === excludeKey) continue;
+    used.add(normalized);
+  }
+
+  return used;
+}
+
+function heroImageFromFrontmatter(
+  value: string | undefined,
+  opts: GuideImageOptions
+): string | undefined {
   if (!value) return undefined;
   const normalized = normalizeHeroImage(value);
-  const match = normalized.match(/photo-(\d+-[a-f0-9]+)/i);
-  if (match?.[1] && REMOVED_UNSPLASH_PHOTO_IDS.has(match[1])) return undefined;
+  const id = unsplashPhotoId(normalized);
+  if (id && REMOVED_UNSPLASH_PHOTO_IDS.has(id)) return undefined;
+  if (opts.usedImages?.has(normalized)) return undefined;
   return normalized;
 }
 
-export function resolveGuideImage(input: GuideImageInput): string {
-  const fromFrontmatter = heroImageFromFrontmatter(input.heroImage);
-  if (fromFrontmatter) return fromFrontmatter;
-
+/** Resolve a unique, topic-relevant hero/thumbnail image for an SEO guide page. */
+export function resolveGuideImage(
+  input: GuideImageInput,
+  opts: GuideImageOptions = {}
+): string {
   const slugKey = input.slug.replace(/^\/+/, "").replace(/\.(mdx|md)$/i, "");
+  const usedImages = opts.usedImages ?? collectUsedHeroImages(slugKey);
+
   const explicit = GUIDE_IMAGE_BY_SLUG[slugKey];
   if (explicit) return explicit;
 
-  return assignFromCatalog(input);
+  const fromFrontmatter = heroImageFromFrontmatter(input.heroImage, {
+    ...opts,
+    usedImages,
+  });
+  if (fromFrontmatter) return fromFrontmatter;
+
+  return assignFromCatalog(input, { ...opts, usedImages });
 }
 
 export function guideHeroImage(page: { frontmatter: SeoFrontmatter }): string {
